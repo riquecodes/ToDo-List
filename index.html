@@ -13,86 +13,191 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   </head>
   <body>
-    <header class="bg-success text-white p-4 mb-4">
-      <div class="container d-flex justify-content-center align-items-center">
-        <h1 class="h3 m-0">Lista de Tarefas</h1>
-      </div>
-    </header>
-
-    <main class="container" style="max-width: 80%; margin: 0 auto;">
-      <section id="new" class="container d-flex justify-content-center align-items-center gap-4">
-        <input id="newTask" placeholder="Adicionar nova tarefa..." class="form-control w-50 p-2"></input>
-        <button id="add" type="submit" class="btn btn-primary" onclick="addTask(event)">Adicionar Tarefa</button>
+    <div class="container d-flex justify-content-center align-items-center">
+      <h1 class="h1 m-5">Lista de Tarefas</h1>
+    </div>
+    
+    <main class="container fs-5" style="max-width: 90%; margin: 0 auto;">
+      <section id="new" class="container d-flex justify-content-center align-items-center gap-4 fs-5">
+        <input id="newTask" placeholder="Adicionar nova tarefa..." class="form-control w-50 p-2 fs-5"></input>
+        <button id="add" type="submit" class="btn btn-primary fs-5 btn-lg" onclick="addTask(event)">Adicionar Tarefa</button>
       </section>
 
-        <section id="filters" class="d-flex justify-content-center align-items-center gap-4 mt-4">
-            <button id="all" class="btn btn-primary">Todas</button>
-            <button id="pending" class="btn btn-warning">Pendentes</button>
-            <button id="completed" class="btn btn-success">Concluídas</button>
+        <section id="filters" class="d-flex justify-content-center align-items-center gap-4 m-5 fs-5">
+            <button id="all" class="btn btn-primary fs-5 btn-lg">Todas</button>
+            <button id="pending" class="btn btn-warning fs-5 btn-lg">Pendentes</button>
+            <button id="completed" class="btn btn-success fs-5 btn-lg">Concluídas</button>
         </section>
 
-      <section id="tasks">
-        <table class="table mt-4">
-          <thead>
-            <tr>
-                <th scope="col" class="text-center">Concluído</th>
-                <th scope="col" class="text-center">Tarefa</th>
-                <th scope="col" class="text-center">Vencimento</th>
-                <th scope="col" class="text-center">Prioridade</th>
-                <th scope="col" class="text-center">Ações</th>
-            </tr>
-          </thead>
-
+      <section id="tasks" class="table container">
+        <table class="table container table-bordered fs-5 mt-4 table-hover table-striped rounded shadow">
           <tbody id="taskList"></tbody>
         </table>
       </section>
+
+      <section class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <section class="modal-dialog">
+          <form id="editForm" class="modal-content">
+            <header class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Editar Tarefa</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </header>
+            <section class="modal-body">
+              <input type="text" id="editTaskInput" class="form-control mb-3" placeholder="Nome da tarefa" required>
+              
+              <label for="editDueDate" class="form-label">Vencimento</label>
+              <input type="date" id="editDueDate" class="form-control mb-3" />
+              
+              <label for="editDescription" class="form-label">Descrição</label>
+              <textarea id="editDescription" class="form-control mb-3" rows="3" placeholder="Descrição da tarefa (opcional)"></textarea>
+              
+              <label for="editPriority" class="form-label">Prioridade</label>
+              <select id="editPriority" class="form-select">
+                <option value="">Selecione prioridade</option>
+                <option value="Baixa">Baixa</option>
+                <option value="Média">Média</option>
+                <option value="Alta">Alta</option>
+              </select>
+            </section>
+            <footer class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </footer>
+          </form>
+        </section>
+      </section>
+
+    <!-- Modal Excluir -->
+      <section class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <section class="modal-dialog">
+          <section class="modal-content">
+            <header class="modal-header">
+              <h5 class="modal-title" id="deleteModalLabel">Excluir Tarefa</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </header>
+            <section class="modal-body">
+              Tem certeza que deseja excluir esta tarefa?
+            </section>
+            <footer class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button id="confirmDeleteBtn" type="button" class="btn btn-danger">Excluir</button>
+            </footer>
+          </section>
+        </section>
+      </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function addTask(event) {
-            event.preventDefault();
-            console.log('aham clicou');
-            
-            const taskInput = document.getElementById('newTask').value;
-            const taskList = document.getElementById('taskList');
 
-            if (taskInput.trim() === '') {
-                alert('Por favor, preencha uma tarefa válida.');
-                return;
-            };
+      function addTask(event) {
+        event.preventDefault();
 
-            const newRow = document.createElement('tr');
-
-            newRow.innerHTML = `
-            <tr>
-                <td class="text-center">
-                    <input type="checkbox" class="form-check-input me-2" onchange="toggleTaskStatus(this)">
-                </td>
-                <td class="text-center">${taskInput}</td>
-                <td class="text-center">Vazio!</td>
-                <td class="text-center">Vazio!</td>
-                <td class="text-center">
-                    <section id="actions" class="d-flex justify-content-center gap-2">
-                        <button class="btn btn-success btn-sm" onclick="editTask()">
-                            <i class="bi bi-pencil-fill"></i>
-                        <button class="btn btn-danger btn-sm" onclick="deleteTask()">
-                            <i class="bi bi-trash-fill"></i>
-                    </section>
-                </td>
-            </tr>
-            `;
-            document.getElementById('taskList').appendChild(newRow);
-
+        const taskInput = document.getElementById('newTask').value;
+        if (taskInput.trim() === '') {
+          alert('Por favor, preencha uma tarefa válida.');
+          return;
         }
 
-        function toggleTaskStatus(checkbox) {
-            const row = checkbox.closest('tr');
-            if (checkbox.checked) {
-                row.classList.add('table-success');
-            } else {
-                row.classList.remove('table-success');
-            }
+        const newRow = document.createElement('tr');
+
+        newRow.innerHTML = `
+          <td class="text-center">
+            <input type="checkbox" class="form-check-input me-2" onchange="toggleTaskStatus(this)">
+          </td>
+          <td class="text-center task-name">${taskInput}</td>
+          <td class="text-center due-date">—</td>
+          <td class="text-center description">—</td>
+          <td class="text-center priority">—</td>
+          <td class="text-center">
+            <section class="d-flex justify-content-center gap-2">
+              <button class="btn btn-success btn-sm" onclick="openEditModal(this)">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </section>
+          </td>
+        `;
+
+        document.getElementById('taskList').appendChild(newRow);
+
+        document.getElementById('newTask').value = ''; // limpa input após adicionar
+      }
+
+      function filterTasks(filter) {
+        const taskList = document.getElementById('taskList').querySelectorAll('tr');
+        
+        taskList.forEach(task => {
+          const checkbox = task.querySelector('input[type="checkbox"]');
+          if (!checkbox) return; // Se não houver checkbox, pula para a próxima tarefa
+
+          if (filter === 'all') {
+            task.style.display = '';
+            return;
+          }
+          
+          if (filter === 'pending' && checkbox.checked) {
+            task.style.display = 'none';
+            return;
+          } 
+          
+          if (filter === 'completed' && !checkbox.checked) {
+            task.style.display = 'none';
+            return;
+          }
+
+          task.style.display = '';
+          
+        });
+      }
+
+      document.getElementById('all').onclick = () => filterTasks('all');
+      document.getElementById('pending').onclick = () => filterTasks('pending');
+      document.getElementById('completed').onclick = () => filterTasks('completed');
+
+      let currentRow = null;
+      const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+      const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+      
+      function openEditModal(button) {
+        currentRow = button.closest('tr');
+        editModal.show();
+        document.getElementById('editTaskInput').value = currentRow.querySelector('.task-name').textContent;
+        document.getElementById('editDueDate').value = currentRow.querySelector('.due-date').textContent !== '—' ? currentRow.querySelector('.due-date').textContent : '';
+        document.getElementById('editDescription').value = currentRow.querySelector('.description').textContent !== '—' ? currentRow.querySelector('.description').textContent : '';
+        document.getElementById('editPriority').value = currentRow.querySelector('.priority').textContent !== '—' ? currentRow.querySelector('.priority').textContent : '';
+      }
+
+      document.getElementById('editForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const newName = document.getElementById('editTaskInput').value.trim();
+        const newDueDate = document.getElementById('editDueDate').value || '—';
+        const newDescription = document.getElementById('editDescription').value.trim() || '—';
+        const newPriority = document.getElementById('editPriority').value || '—';
+
+        if (newName && currentRow) {
+          currentRow.querySelector('.task-name').textContent = newName;
+          currentRow.querySelector('.due-date').textContent = newDueDate;
+          currentRow.querySelector('.description').textContent = newDescription;
+          currentRow.querySelector('.priority').textContent = newPriority;
+          editModal.hide();
+        } else {
+          alert('Nome da tarefa é obrigatório!');
         }
+      });
+
+      // Função para abrir modal de excluir (você pode usar a que já tem ou implementar igual aos outros modais)
+      function openDeleteModal(button) {
+        currentRow = button.closest('tr');
+        // Implementar modal excluir se quiser
+        if(confirm('Tem certeza que deseja excluir essa tarefa?')) {
+          currentRow.remove();
+          currentRow = null;
+        }
+      }
 
     </script>
   </body>
