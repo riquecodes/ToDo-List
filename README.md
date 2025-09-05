@@ -1,43 +1,44 @@
-# 📝 Lista de Tarefas (To-Do List)
+# 📝 To-Do List
 
-Este projeto é uma **lista de tarefas interativa**, desenvolvida como atividade acadêmica.  
-O objetivo é aplicar conceitos de **HTML, CSS, JavaScript** e **Bootstrap** em um sistema simples de gerenciamento de tarefas.
-
----
-
-## 🚀 Funcionalidades
-- ➕ Adicionar novas tarefas  
-- ✏️ Editar tarefas (nome, vencimento, descrição e prioridade)  
-- 🗑️ Excluir tarefas com confirmação  
-- ✅ Marcar tarefas como concluídas (fica riscado e opaco)  
-- 🔍 Filtros para exibição:  
-  - Todas  
-  - Pendentes  
-  - Concluídas  
+This project is an **interactive task list**, developed as an academic activity.  
+The goal is to apply concepts of **HTML, CSS, JavaScript**, and **Bootstrap** in a simple task management system.
 
 ---
 
-## 🛠️ Tecnologias utilizadas
-- **HTML5** → estrutura do projeto  
-- **CSS3** → estilização personalizada  
-- **JavaScript (ES6)** → lógica da aplicação  
-- **Bootstrap 5** → componentes prontos e responsividade  
-- **Bootstrap Icons** → ícones dos botões  
+## 🚀 Features
+- ➕ Add new tasks  
+- ✏️ Edit tasks (name, due date, description, and priority)  
+- 🗑️ Delete tasks with confirmation  
+- ✅ Mark tasks as completed (they become crossed out and faded)  
+- 🔍 Filters for display:  
+  - All  
+  - Pending  
+  - Completed  
 
 ---
 
-## 📂 Estrutura de arquivos
+## 🛠️ Technologies Used
+- **HTML5** → project structure  
+- **CSS3** → custom styling  
+- **JavaScript (ES6)** → application logic  
+- **Bootstrap 5** → ready-made components and responsiveness  
+- **Bootstrap Icons** → button icons  
+
+---
+
+## 📂 File Structure
 ```
-📁 projeto-todo-list
-│── index.html # Estrutura principal
-│── styles.css # Estilização
-│── script.js # Lógica em JavaScript
-│── README.md # Documentação
+📁 todo-list-project
+│── index.html # Main structure
+│── styles.css # Styling
+│── script.js  # JavaScript logic
+│── README.md  # Documentation
 ```
 
 ---
 
-## ▶️ Como executar
-1. Baixe ou clone este repositório.  
-2. Abra o arquivo **index.html** em qualquer navegador moderno.  
-3. Use a lista de tarefas normalmente. ✅  
+## ▶️ How to Run
+1. Download or clone this repository.  
+2. Open **index.html** in any modern browser.  
+3. Use the task list normally. ✅
+
